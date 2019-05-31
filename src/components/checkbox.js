@@ -1,28 +1,18 @@
-import React,{Component} from 'react';
+import React,{useState, useEffect} from 'react';
 
-export default class extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            checked: false
-        }
-    }
-    handleChange = () => {
-        this.setState({
-            checked: !this.state.checked
-        },()=>this.props.handleCheckboxToggle(this.props.label, this.state.checked));
-        
-    }
-    render() {
-        const {label} = this.props;
-        return (
-            <div>
-                <form>
-                    <input type="checkbox" checked={this.state.checked} onChange={this.handleChange}/>
-                    <label>{label}</label>
+const CheckBox = ({handleCheckboxToggle, label}) => {
+    const [checked,setChecked]=useState(false);
 
-                </form>
-            </div>
-        )
-    }
-}    
+    useEffect(() => {
+        handleCheckboxToggle(label, checked);
+    }, [checked])
+    return (
+        <div>
+            <form>
+                <input type="checkbox" checked={checked} onChange={() => setChecked(!checked)}/>
+                <label>{label}</label>        
+            </form>
+        </div>
+    )   
+}
+export default CheckBox;
